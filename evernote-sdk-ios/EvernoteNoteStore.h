@@ -1026,4 +1026,5 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                               recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings
                                                         success:(void(^)(int32_t usn))success
                                                         failure:(void(^)(NSError *error))failure;
+
 @end

@@ -103,19 +103,21 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 @property (nonatomic, readonly) BOOL isAuthenticated;
 
 /** Evernote auth token, to be passed to any NoteStore methods. Will only be non-nil once we've authenticated. */
-@property (weak, nonatomic, readonly) NSString *authenticationToken;
+@property (strong, nonatomic, readwrite) NSString *authenticationToken;
 
 /** Evernote auth token for Business, to be passed to any NoteStore methods. Will only be non-nil once we've authenticated. */
-@property (weak, nonatomic, readonly) NSString *businessAuthenticationToken;
+@property (strong, nonatomic, readwrite) NSString *businessAuthenticationToken;
 
 /** URL for the Evernote UserStore. */
-@property (weak, nonatomic, readonly) NSString *userStoreUrl;
+@property (strong, nonatomic, readwrite) NSString *userStoreUrl;
 
 /** URL for the Evernote NoteStore for the authenticated user. Will only be non-nil once we've authenticated. */
-@property (weak, nonatomic, readonly) NSString *noteStoreUrl;
+@property (strong, nonatomic, readwrite) NSString *noteStoreUrl;
 
 /** URL prefix for the web API. Will only be non-nil once we've authenticated. */
-@property (weak, nonatomic, readonly) NSString *webApiUrlPrefix;
+@property (strong, nonatomic, readwrite) NSString *webApiUrlPrefix;
+
+@property (strong, nonatomic, readwrite) NSString *edamUserId;
 
 /** Shared dispatch queue for API operations. */
 @property (nonatomic, readonly) dispatch_queue_t queue;
@@ -269,4 +271,7 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  */
 - (void)installSkitchAppUsingViewController:(UIViewController*)viewController;
 
+- (void)resetAuthenticationToken:(NSString *)authenticationToken params:(NSArray *)params;
+
+- (NSString *)retrieveAuthenticationToken;
 @end

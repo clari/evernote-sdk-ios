@@ -26,7 +26,7 @@
     // Change this to BootstrapServerBaseURLStringUS to use the production Evernote service
     // Change this to BootstrapServerBaseURLStringCN to use the Yinxiang Biji production service
     // BootstrapServerBaseURLStringSandbox does not support the  Yinxiang Biji service
-    NSString *EVERNOTE_HOST = BootstrapServerBaseURLStringSandbox;
+    NSString *EVERNOTE_HOST = BootstrapServerBaseURLStringUS;
     
     // Fill in the consumer key and secret with the values that you received from Evernote
     // To get an API key, visit http://dev.evernote.com/documentation/cloud/

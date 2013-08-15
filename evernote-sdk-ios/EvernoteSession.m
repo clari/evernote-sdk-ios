@@ -94,14 +94,15 @@
 @synthesize consumerKey = _consumerKey;
 @synthesize consumerSecret = _consumerSecret;
 @synthesize tokenSecret = _tokenSecret;
+@synthesize authenticationToken = _authenticationToken;
 
 @synthesize completionHandler = _completionHandler;
 @synthesize queue = _queue;
-@dynamic authenticationToken;
-@dynamic isAuthenticated;
-@dynamic userStoreUrl;
-@dynamic noteStoreUrl;
-@dynamic webApiUrlPrefix;
+@synthesize isAuthenticated = _isAuthenticated;
+@synthesize userStoreUrl = _userStoreUrl;
+@synthesize noteStoreUrl = _noteStoreUrl;
+@synthesize webApiUrlPrefix = _webApiUrlPrefix;
+@synthesize edamUserId = _edamUserId;
 
 - (void)dealloc
 {
@@ -610,6 +611,11 @@
         NSString *edamUserId = [parameters objectForKey:@"edam_userId"];
         NSString *webApiUrlPrefix = [parameters objectForKey:@"edam_webApiUrlPrefix"];
         
+        self.authenticationToken = authenticationToken;
+        self.noteStoreUrl = noteStoreUrl;
+        self.edamUserId = edamUserId;
+        self.webApiUrlPrefix = webApiUrlPrefix;
+        
         NSLog(@"OAuth Step 3 - Time Running is: %f",[self.startDate timeIntervalSinceNow] * -1);
         // Evernote doesn't use the token secret, so we can ignore it.
         // NSString *oauthTokenSecret = [parameters objectForKey:@"oauth_token_secret"];
@@ -622,6 +628,10 @@
                                                        userInfo:nil]];
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
+            self.authenticationToken = authenticationToken;
+            self.noteStoreUrl = noteStoreUrl;
+            self.edamUserId = edamUserId;
+            self.webApiUrlPrefix = webApiUrlPrefix;
             [self saveCredentialsWithEdamUserId:edamUserId
                                    noteStoreUrl:noteStoreUrl
                                 webApiUrlPrefix:webApiUrlPrefix
@@ -958,6 +968,31 @@
     }
 }
 
+- (void)resetAuthenticationToken:(NSString *)authenticationToken params:(NSArray *)params
+{
+    self.authenticationToken = authenticationToken;
+    self.edamUserId = [params objectAtIndex:0];
+    self.noteStoreUrl = [params objectAtIndex:1];
+    self.webApiUrlPrefix = [params objectAtIndex:2];
+    
+    if(authenticationToken)
+    {
+        [self saveCredentialsWithEdamUserId:[params objectAtIndex:0]
+                               noteStoreUrl:[params objectAtIndex:1]
+                            webApiUrlPrefix:[params objectAtIndex:2]
+                        authenticationToken:authenticationToken];
+        // call our callback, without error.
+        [self completeAuthenticationWithError:nil];
+        // update the auth state
+        self.state = ENSessionAuthenticated;
+    }
+}
+
+- (NSString *)retrieveAuthenticationToken
+{
+    return _authenticationToken;
+}
+
 #pragma mark - SKStoreProductViewController delegate
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [viewController dismissViewControllerAnimated:YES completion:^{
@@ -966,4 +1001,5 @@
         }
     }];
 }
+
 @end
