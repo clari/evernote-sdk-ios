@@ -207,7 +207,7 @@
     NSString *appName = [infoDic valueForKey:(id)kCFBundleNameKey];
     NSString * buildVersion = [infoDic valueForKey: @"SourceVersion"];
     if (buildVersion == nil) {
-        buildVersion = [infoDic valueForKey:(id)kCFBundleVersionKey];
+        buildVersion = [infoDic valueForKey:(id)@"CFBundleShortVersionString"];
     }
     clientName = [NSString stringWithFormat: @"%@ iPhone/%@ (%@);",
                   appName,
