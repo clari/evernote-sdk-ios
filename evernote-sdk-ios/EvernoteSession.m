@@ -327,7 +327,7 @@
     [self clearAllClients];
     
     // Revoke the token, this is not necessary, but it's good practice
-    [[EvernoteUserStore userStore] revokeLongSessionWithAuthenticationToken:authToken success:nil failure:nil];
+//    [[EvernoteUserStore userStore] revokeLongSessionWithAuthenticationToken:authToken success:nil failure:nil];
 }
 
 - (void) clearAllClients {
@@ -353,10 +353,10 @@
     self.completionHandler = completionHandler;
 
     // authenticate is idempotent; check if we're already authenticated
-//    if (self.isAuthenticated) {
-//        [self completeAuthenticationWithError:nil];
-//        return;
-//    }
+    if (self.isAuthenticated) {
+        [self completeAuthenticationWithError:nil];
+        return;
+    }
     
     // Do app setup sanity checks before beginning OAuth process.
     // This verification raises an NSException if problems are found.
