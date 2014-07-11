@@ -309,6 +309,7 @@
 {
 //    NSString* authToken = [[EvernoteSession sharedSession] authenticationToken];
     // remove all credentials from the store and keychain
+    
     [self.credentialStore clearAllCredentials];
     
     // remove the store from user defaults
